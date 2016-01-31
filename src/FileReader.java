@@ -18,7 +18,9 @@ public class FileReader {
     public StringBuilder parseFile(File file){
         StringBuilder stringBuilder = new StringBuilder();
         FileInputStream inputStream = null;
-        Boolean isFirst = true;
+        boolean isFirst = true;
+        boolean blockCommentActive = false;
+        boolean blockCommentInitial = false;
         String currentLine;
         try {
             inputStream = new FileInputStream(file);
@@ -32,12 +34,18 @@ public class FileReader {
             while ((currentLine = br.readLine()) != null)   {
                 boolean removeLine = false;
                 String lineToAdd = currentLine;
+
                 if(currentLine.contains("//")){
                     int index = currentLine.indexOf("//");
                     lineToAdd = currentLine.substring(0,index);
-                    if(lineToAdd.isEmpty()){
-                        removeLine = true;
-                    }
+                }
+
+                if(currentLine.contains("/*")){
+                    int index = currentLine.indexOf("/*");
+                    lineToAdd = currentLine.substring(0,index);
+
+                    blockCommentActive = true;
+                    blockCommentInitial = true;
                 }
                 //Loops through every line, and makes sure it has chars in it
                 for(int i = 0; i < lineToAdd.length(); i++){
@@ -48,13 +56,29 @@ public class FileReader {
                         break;
                     }
                 }
+                if(blockCommentActive){
+                    if(currentLine.contains("*/")){
+                        int index = currentLine.indexOf("*/") + 2;
+
+                        if(blockCommentInitial) {
+                            lineToAdd += currentLine.substring(index, currentLine.length());
+                        } else {
+                            lineToAdd = currentLine.substring(index, currentLine.length());
+                        }
+                        blockCommentActive = false;
+
+                    }
+                }
                 if(!lineToAdd.isEmpty() && !removeLine) {
-                    if(!isFirst){
+                    if(!isFirst && (!blockCommentActive || blockCommentInitial)){
                         stringBuilder.append("\n");
                     }
-                    stringBuilder.append(lineToAdd);
+                    if(!blockCommentActive || blockCommentInitial) {
+                        stringBuilder.append(lineToAdd);
+                    }
                     isFirst = false;
                 }
+                blockCommentInitial = false;
             }
         } catch (IOException e) {
             e.printStackTrace();
