@@ -18,6 +18,8 @@ public class FileReader {
     public StringBuilder parseFile(File file){
         StringBuilder stringBuilder = new StringBuilder();
         FileInputStream inputStream = null;
+        Boolean isFirst = true;
+        String currentLine;
         try {
             inputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
@@ -25,14 +27,10 @@ public class FileReader {
         }
         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
-        String currentLine;
-
         //Read File Line By Line
         try {
             while ((currentLine = br.readLine()) != null)   {
                 boolean removeLine = false;
-                // Print the content on the console
-                currentLine = currentLine.trim();
                 String lineToAdd = currentLine;
                 if(currentLine.contains("//")){
                     int index = currentLine.indexOf("//");
@@ -41,38 +39,26 @@ public class FileReader {
                         removeLine = true;
                     }
                 }
-
-                if(currentLine.contains("\t")){
-                    removeLine = true;
-                    for(int i = 0; i < currentLine.length() - 1; i++){
-                        String subString = currentLine.substring(i,i+1);
-                        if(subString.equals("\t")){
-                            removeLine = true;
-                        } else{
-                            removeLine = false;
-                        }
+                //Loops through every line, and makes sure it has chars in it
+                for(int i = 0; i < lineToAdd.length(); i++){
+                    if(lineToAdd.substring(i, i+1).equals(" ") || lineToAdd.substring(i, i+1).equals("") || lineToAdd.substring(i, i+1).equals("\t")){
+                        removeLine = true;
+                    } else{
+                        removeLine = false;
+                        break;
                     }
                 }
-
-                if(!currentLine.isEmpty() && !removeLine) {
+                if(!lineToAdd.isEmpty() && !removeLine) {
+                    if(!isFirst){
+                        stringBuilder.append("\n");
+                    }
                     stringBuilder.append(lineToAdd);
-                    stringBuilder.append("\n");
+                    isFirst = false;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return stringBuilder;
-    }
-
-    private Scanner openFile(File file) {
-        Scanner scanner;
-        try {
-            scanner = new Scanner(file);
-        } catch (FileNotFoundException e){
-            CustomLogger.e(TAG, e.toString());
-            return null;
-        }
-        return scanner;
     }
 }
