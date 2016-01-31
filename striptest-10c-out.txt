@@ -1,1 +1,9 @@
-publicclassHelloWorld{publicstaticvoidmain(String[]args){System.out.println/*Deleteme!*/("Hello,World");}/*abcdeThisisamultiplelineblockcomment*/}
+public class HelloWorld {
+public static void main(String[] args) {
+System.out.println/*Delete me!*/("Hello, World");
+}
+/* abcde
+This is a multiple line
+block comment
+*/
+}
