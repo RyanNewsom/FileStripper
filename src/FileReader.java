@@ -47,15 +47,7 @@ public class FileReader {
                     blockCommentActive = true;
                     blockCommentInitial = true;
                 }
-                //Loops through every line, and makes sure it has chars in it
-                for(int i = 0; i < lineToAdd.length(); i++){
-                    if(lineToAdd.substring(i, i+1).equals(" ") || lineToAdd.substring(i, i+1).equals("") || lineToAdd.substring(i, i+1).equals("\t")){
-                        removeLine = true;
-                    } else{
-                        removeLine = false;
-                        break;
-                    }
-                }
+
                 if(blockCommentActive){
                     if(currentLine.contains("*/")){
                         int index = currentLine.indexOf("*/") + 2;
@@ -66,7 +58,15 @@ public class FileReader {
                             lineToAdd = currentLine.substring(index, currentLine.length());
                         }
                         blockCommentActive = false;
-
+                    }
+                }
+                //Loops through every line, and makes sure it has chars in it
+                for(int i = 0; i < lineToAdd.length(); i++){
+                    if(lineToAdd.substring(i, i+1).equals(" ") || lineToAdd.substring(i, i+1).equals("") || lineToAdd.substring(i, i+1).equals("\t")){
+                        removeLine = true;
+                    } else{
+                        removeLine = false;
+                        break;
                     }
                 }
                 if(!lineToAdd.isEmpty() && !removeLine) {
@@ -75,8 +75,8 @@ public class FileReader {
                     }
                     if(!blockCommentActive || blockCommentInitial) {
                         stringBuilder.append(lineToAdd);
+                        isFirst = false;
                     }
-                    isFirst = false;
                 }
                 blockCommentInitial = false;
             }

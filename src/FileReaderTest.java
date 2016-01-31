@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * Created by Ryan on 1/31/2016.
  */
 public class FileReaderTest {
-    File file = new File("striptest-13.txt");
+    File file = new File("striptest-12.txt");
     FileReader fileReader = new FileReader();
     @Before
     public void setUp() throws Exception {
