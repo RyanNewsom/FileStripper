@@ -1,6 +1,7 @@
 import java.io.File;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -10,10 +11,10 @@ import java.util.ArrayList;
 public class FileCoordinator {
     private static final String TAG = "FileCoordinator";
 
-    private ArrayList<File> mFiles;
-    private ArrayList<String> mFileNames;
+    private List<File> mFiles;
+    private List<String> mFileNames;
 
-    public FileCoordinator(ArrayList<String> fileNames){
+    public FileCoordinator(List<String> fileNames){
         mFileNames = fileNames;
         mFiles = new ArrayList<>();
         createFiles();
@@ -28,6 +29,10 @@ public class FileCoordinator {
     }
 
     public File getNextFile(){
-        return mFiles.remove(0);
+        if(!mFiles.isEmpty()) {
+            return mFiles.remove(0);
+        } else{
+            return null;
+        }
     }
 }

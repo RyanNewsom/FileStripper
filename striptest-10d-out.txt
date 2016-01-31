@@ -1,0 +1,1 @@
+publicclassHelloWorld{//Ihopethislinegetsdeleted!//Andtheoneabovethistoo...publicstaticvoidmain(String[]args){//TherearesomeextraspacestotheleftofmeSystem.out.println/*Deleteme!*/("Hello,World");}/*abcdeThisisamultiplelineblockcomment*///Therearefourspacesaftertheendoftheblockcomment.}//Doesacommentonthelastlinebreakyourprogram?

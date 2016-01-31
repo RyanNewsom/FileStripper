@@ -11,7 +11,28 @@ import java.util.Scanner;
  */
 public class FileReader {
     private static final String TAG = "FileReader";
+
+    /**
+     * Remove comments, blank lines
+     * @param file - file to be parsed
+     * @return
+     */
     public StringBuilder parseFile(File file){
+        Scanner scanner;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        scanner = openFile(file);
+        if (scanner == null){
+            return null;
+        }
+        //Scan the file, if you run into a blank line/comment, remove it.
+        while(scanner.hasNext()){
+            stringBuilder.append(scanner.next());
+        }
+        return stringBuilder;
+    }
+
+    private Scanner openFile(File file) {
         Scanner scanner;
         try {
             scanner = new Scanner(file);
@@ -19,8 +40,6 @@ public class FileReader {
             CustomLogger.e(TAG, e.toString());
             return null;
         }
-
-        scanner.next();
-        return null;
+        return scanner;
     }
 }

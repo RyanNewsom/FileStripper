@@ -1,0 +1,16 @@
+public class HelloWorld {
+//I hope this line gets deleted!
+
+//And the one above this too...
+    public static void main(String[] args) {    //There are some extra spaces to the left of me
+        System.out.println/*Delete me!*/("Hello, World");
+    }
+		/* abcde
+		This is a multiple line
+		block comment
+		*/    
+		//There are four spaces after the end of the block comment.
+
+}
+
+//Does a comment on the last line break your program?
